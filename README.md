@@ -1,9 +1,9 @@
 # Refactoring with Modules
 
-## Objectives
+## Learning Goals
 
-1. Recognize "code smells" that indicate the need for refactoring.
-2. Use modules to refactor away repetitious code.
+- Recognize "code smells" that indicate the need for refactoring.
+- Use modules to refactor away repetitious code.
 
 ## Overview
 
@@ -29,7 +29,7 @@ classes.
 ## Configuring our Environment
 
 Instead of requiring individual files within one another, as you may have
-noticed we did in the previous two code along exercises, we created an
+noticed we did in the previous two code-along exercises, we created an
 environment file to handle those requirements for us. Because the
 `environment.rb` file is read and loaded into memory in line order, if `Artist`
 requires `Memorable`, then Artist must be required **after** requiring
@@ -45,22 +45,22 @@ make sense to handle all of our requirements in one place.
 ### A Note on Refactoring Practices
 
 We use TDD (test-driven development) for a reason. We write tests to define the
-desired behavior of our program so that we can write clean, beautiful code.
-Such code usually _isn't_ the code you write the first time around. The code
-you first write is the code that makes your program _work_, the code that gets
-those tests passing. Then, we refactor our code to make it clean, DRY, and easy
-to understand. This is where our tests come in. We write thorough tests that
-cover all of the aspects of our code's desired behavior. We can _first_ write
-code that passes those tests and _then_ break our code, fail our tests, write
-better code and pass our tests again.
+desired behavior of our program so that we can write clean, beautiful code. Such
+code usually _isn't_ the code you write the first time around. The code you
+first write is the code that makes your program _work_, the code that gets those
+tests passing. Then, we refactor our code to make it clean, DRY, and easy to
+understand. This is where our tests come in. We write thorough tests that cover
+all of the aspects of our code's desired behavior. We can _first_ write code
+that passes those tests, _then_ break our code, fail our tests, write better
+code and pass our tests again.
 
 This is called the **red, green, refactor** pattern. First tests fail, then you
 write bad code to get them to pass, _then_ you refactor that bad code into good
 code. In this lab, you'll start by running the test suite. You'll see that all
 of the tests pass. Then, we'll break that code in order to refactor it, write
-better code and get our tests passing again. Remember, don't be afraid of
-broken code! Broken code is the status quo in programming. Your job is often to
-break something to make it better. Embrace broken code.
+better code and get our tests passing again. Remember, don't be afraid of broken
+code! Broken code is the status quo in programming. Your job is often to break
+something to make it better. Embrace broken code.
 
 ### Step 1: Class Methods
 
@@ -81,8 +81,8 @@ wasn't so bad, was it?
 
 Let's define our module. Create a `concerns` folder inside `lib`. This is where
 we'll store our modules. It is a common practice to create a folder called
-`concerns` that holds modules that will be used across classes in an object
-oriented Ruby project.
+`concerns` that holds modules that will be used across classes in an
+object-oriented Ruby project.
 
 Inside the `concerns` folder, create a file called `memorable.rb`. Open up that
 file and define a module:
@@ -100,7 +100,7 @@ line for you in fact! All you have to do is un-comment it out. :)
 
 Once you define the two class methods mentioned above inside of the `Memorable`
 module, use the `extend` keyword to extend those methods, as class methods,
-into both the `Artist` and `Song` class. Refer to the previous code along
+into both the `Artist` and `Song` class. Refer to the previous code-along
 exercise for help. Remember that the `self` keyword is omitted when defining
 class methods inside modules. The `extend` keyword is responsible for defining
 the method as a class method vs. an instance method (which would use the
@@ -124,15 +124,15 @@ common example:
 Let's say you're working on an app that serves as an online store, connecting
 users to everything from books to movies to shoes to stereo equipment, you name
 it. We'll call this app "Nile" (definitely not inspired by another online
-market-place named after a famous river). Such an application needs to store
-the items it has for sale as well as the information of the user who logs in to
-go shopping. Consequently, every time a user logs in, or searches for an item,
-or purchases an item, we have to _retrieve information from a database_. One of
-the most common ways you'll be doing that is to use methods like `find_by_name`
-or `find_by_email` or `find_by_product_id` or...you get the idea. We'll be
-learning much, much more about this later. Here, we're building a simple
-`find_by_name` method that introspects on a class's `.all` class method and
-extracts the instance of the class with a certain name.
+market-place named after a famous river). Such an application needs to store the
+items it has for sale as well as the information of the user who logs in to go
+shopping. Consequently, every time a user logs in, or searches for an item, or
+purchases an item, we have to _retrieve information from a database_. One of the
+most common ways you'll be doing that is to use methods like `find_by_name` or
+`find_by_email` or `find_by_product_id` or...you get the idea. We'll be learning
+much, much more about this later. Here, we're building a simple `find_by_name`
+method that introspects on a class's `.all` class method and extracts the
+instance of the class with a certain name.
 
 Okay, back to your regularly scheduled programming:
 
@@ -179,9 +179,9 @@ Inside the `Findable.find_by_name` method, we can't use a class-specific class
 variable like `@@artists`, because our method would break when included in any
 class that _didn't_ define such a variable.
 
-Is there a way to reference the collection of _all_ of the instances of a
-class, without specifically referencing class variables that are only defined
-in certain classes?
+Is there a way to reference the collection of _all_ of the instances of a class,
+without specifically referencing class variables that are only defined in
+certain classes?
 
 ### Step 2: Instance Methods
 
@@ -220,13 +220,13 @@ To understand the concept of a parameter, let's take a look at an example URL:
 www.facebook.com/your-name.
 
 The "your-name" part of the above URL might be referred to as a slug. Another
-term for this section of a URL is "parameter" or "param". One common task
-you'll undertake as a web developer is to take a Ruby object, such as an
-instance of a `User` class, and make a URL out of it. For example, let's say we
-have a database full of instances of a `User` class. When an individual user
-signs in to our app, we might want to show them their very own profile page. To
-do so, we would have to write a method that takes their name and turns it into
-a slug or parameter that could be tacked onto a URL.
+term for this section of a URL is "parameter" or "param". One common task you'll
+undertake as a web developer is to take a Ruby object, such as an instance of a
+`User` class, and make a URL out of it. For example, let's say we have a
+database full of instances of a `User` class. When an individual user signs in
+to our app, we might want to show them their very own profile page. To do so, we
+would have to write a method that takes their name and turns it into a slug or
+parameter that could be tacked onto a URL.
 
 Don't worry too much about this use-case for now. We'll be learning much, much
 more about connecting our Ruby programs to the web later on. For now, just
@@ -345,9 +345,9 @@ We're ready for the next refactoring step––modules.
 #### Extracting Repetition
 
 Before we build a brand new module to house this code from our `.initialize`
-methods, let's stop and think. What is the responsibility or the behavior of
-the code we are trying to extract? This is code that is responsible for telling
-a class to keep track of its own instances. This code really goes hand in hand
+methods, let's stop and think. What is the responsibility or the behavior of the
+code we are trying to extract? This is code that is responsible for telling a
+class to keep track of its own instances. This code really goes hand in hand
 with the `.count` and `.reset_all` class methods that we already extracted into
 the `Memorable` module. It makes sense, therefore, to extract this code into
 that same module.
@@ -445,7 +445,7 @@ the `@songs` instance variable equal to an empty array. We need to hang on to
 this behavior, even as `Artist` instances grab the _rest_ of the `.initialize`
 from the `Memorable::InstanceMethods` module.
 
-Remember our `super` keyword from the inheritance code along exercise? The
+Remember our `super` keyword from the inheritance code-along exercise? The
 `super` keyword, placed inside a method, will tell that method to look up its
 behavior in the method of the same name that lives in the parent, or super,
 class. A method that includes the `super` keyword will execute any code placed
@@ -472,11 +472,9 @@ class Artist
 
 ## Conclusion
 
-Phew! That was some complex stuff. It's okay if you didn't understand
-everything covered in this lab. There were a few advanced and bonus sections
-that we threw in there to challenge you and make you think. Don't skip over
-them, even if you can't follow everything they discuss. It's important to plant
-the seed of some of these more complex topics––it will make them easier to
-understand later on when you're ready to go deeper into Ruby programming.
-
-<p data-visibility='hidden'>View <a href='https://learn.co/lessons/artist-song-modules' title='Refactoring with Modules'>Refactoring with Modules</a> on Learn.co and start learning to code for free.</p>
+Phew! That was some complex stuff. It's okay if you didn't understand everything
+covered in this lab. There were a few advanced and bonus sections that we threw
+in there to challenge you and make you think. Don't skip over them, even if you
+can't follow everything they discuss. It's important to plant the seed of some
+of these more complex topics––it will make them easier to understand later on
+when you're ready to go deeper into Ruby programming.
